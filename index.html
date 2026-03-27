@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can we be friends?</title>
+    <link rel="icon" type="image/x-icon" href="assets/logofav.ico">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #FFC0CB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .message {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 150px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background: transparent;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                overflow: hidden;
+            }
+            .message {
+                font-size: 1.5em;
+            }
+            .button {
+                padding: 8px 16px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-white" id="marryText">Can we be friends?</h1>
+    <img src="assets/welcome.gif" alt="Welcome" class="img-fluid" id="loveImage" style="max-width: 40%;">
+    <br>
+    <div class="message"></div>
+    <div class="button-container">
+        <button class="btn btn-success button yes">Yes</button>
+        <button class="btn btn-danger button no">No</button>
+    </div>
+    <audio id="loveSong" src="assets/audio.mp3" preload="auto"></audio>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+const yesButton = document.querySelector('.yes');
+const noButton = document.querySelector('.no');
+const message = document.querySelector('.message');
+const loveImage = document.getElementById('loveImage');
+const loveSong = document.getElementById('loveSong');
+const marryText = document.getElementById('marryText');
+
+const noMessages = [
+    'Sure na?',
+    'But why not?',
+    'You must be joking!',
+    'Are you serious?',
+    'Think again!',
+    'Come on, say yes!',
+];
+
+let noClickCount = 0;
+
+yesButton.addEventListener('click', () => {
+    sendLog("YES_CLICK");
+    marryText.style.display = 'none';
+    yesButton.style.display = 'none'; 
+    noButton.style.display = 'none';
+    message.textContent = 'Yay! We\’re friends now';
+    loveImage.src = 'assets/yes.gif';
+    loveSong.play();
+});
+
+noButton.addEventListener('click', () => {
+    sendLog("NO_CLICK", { count: noClickCount });
+    if (loveSong.paused === false) {
+        loveSong.pause();
+    }
+
+    if (noClickCount < 7) {
+        message.textContent = noMessages[noClickCount];
+        noClickCount++;
+        loveImage.src = `assets/sad${Math.min(noClickCount, 10)}.gif`;
+        moveButton();
+    }
+
+    if (noClickCount === 7) {
+        noButton.style.display = 'none';
+        message.textContent = 'You only choice is YES! HAHA.';
+    }
+});
+
+const moveButton = () => {
+    const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+    noButton.style.position = 'absolute';
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+};
+
+const sendLog = (event, extra = {}) => {
+    fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            event,
+            extra,
+            time: new Date().toISOString()
+        })
+    }).catch(err => console.error("Log error:", err));
+};
+
+</script>
+
+</body>
+</html>
