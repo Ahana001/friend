@@ -25,57 +25,47 @@ body {
   background-size: cover;
 }
 
-/* Coconut container */
+/* Container */
 .coconut-container {
   position: absolute;
   top: 10vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 45vw;
-  height: 45vw;
-  max-width: 220px;
-  max-height: 220px;
+  width: clamp(140px, 40vw, 220px);
+  aspect-ratio: 1 / 1;
   z-index: 10;
   transition: top 2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: visible;
 }
 
-/* ALL images responsive */
+/* All images stacked */
 .coconut, .half, .gift {
+  position: absolute;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
-  display: block;
+  top: 0;
+  left: 0;
 }
 
-/* Coconut animation */
+/* Coconut */
 .coconut {
   opacity: 0;
   animation: growCoconut 3s forwards;
   animation-delay: 1s;
 }
 
-/* Coconut halves */
+/* Halves */
 .half {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   opacity: 0;
   transition: transform 1s ease, opacity 1s ease;
 }
 
 /* Gift */
 .gift {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
   opacity: 0;
+  transform: scale(0.5);
   z-index: 20;
-  width: 35vw;
-  max-width: 150px;
-  transition: all 3s ease;
+  transition: all 2s ease;
 }
 
 /* Text */
@@ -134,16 +124,10 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
 }
 
-/* Extra mobile safety */
+/* Mobile tweak */
 @media (max-width: 480px) {
   .coconut-container {
-    width: 60vw;
-    height: 60vw;
-    top: 8vh;
-  }
-
-  .gift {
-    width: 45vw;
+    width: clamp(120px, 55vw, 180px);
   }
 }
 </style>
@@ -193,32 +177,24 @@ container.addEventListener('transitionend', (e) => {
 
   coconut.style.display = 'none';
 
-  /* proportional movement */
   piece1.style.opacity = '1';
-  piece1.style.transform = 'translate(-80%, -60%) rotate(-30deg)';
+  piece1.style.transform = 'translate(-60%, -40%) rotate(-25deg)';
 
   piece2.style.opacity = '1';
-  piece2.style.transform = 'translate(80%, -60%) rotate(30deg)';
+  piece2.style.transform = 'translate(60%, -40%) rotate(25deg)';
 
   /* Step 3: gift */
   setTimeout(() => {
     gift.style.opacity = '1';
+    gift.style.transform = 'translate(0, -120%) scale(1.2)';
 
-    requestAnimationFrame(() => {
-      gift.style.top = '-20%';
-      gift.style.transform = 'translate(-50%, -50%) scale(1.4)';
-    });
-
-    /* rotate */
     setTimeout(() => {
-      gift.style.transition = 'transform 2s ease';
-      gift.style.transform = 'translate(-50%, -50%) scale(1.2) rotate(720deg)';
-    }, 3000);
+      gift.style.transform = 'translate(0, -120%) scale(1.1) rotate(720deg)';
+    }, 2000);
 
-    /* text */
     setTimeout(() => {
       surprise.style.display = 'block';
-    }, 5000);
+    }, 4000);
 
   }, 500);
 });
