@@ -236,7 +236,7 @@ function startMusic() {
   }).catch(() => {});
 }
 
-window.addEventListener('load', startMusic);
+window.addEventListener('load', startMusic, { once: true });
 
 musicBtn.addEventListener('click', () => {
   if (bgMusic.paused) startMusic();
