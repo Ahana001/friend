@@ -15,7 +15,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* 🌴 Background (left aligned only) */
+/* 🌴 Background */
 .tree {
   position: absolute;
   bottom: 0;
@@ -24,21 +24,6 @@ body {
   height: 100%;
   background: url('./img/tree.webp') no-repeat left bottom;
   background-size: cover;
-  overflow: hidden;
-
-}
-
-/* actual image control */
-.tree img {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  height: 100%;
-  width: auto;
-
-  object-fit: cover;
-  object-position: left bottom; /* 👈 keeps left side visible */
 }
 
 /* 🥥 Main container */
@@ -53,7 +38,6 @@ body {
   transition: top 2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 🖼 All images stacked */
 .coconut, .half, .gift {
   position: absolute;
   width: 100%;
@@ -63,14 +47,12 @@ body {
   left: 0;
 }
 
-/* Coconut grow */
 .coconut {
   opacity: 0;
   animation: growCoconut 3s forwards;
   animation-delay: 1s;
 }
 
-/* 🥥 halves (fixed size + centered base) */
 .half {
   width: 70%;
   height: 70%;
@@ -80,7 +62,6 @@ body {
   transition: transform 1s ease, opacity 1s ease;
 }
 
-/* 🎁 gift */
 .gift {
   opacity: 0;
   transform: scale(0.5);
@@ -88,14 +69,13 @@ body {
   transition: all 2s ease;
 }
 
-/* 🎉 Text centered */
+/* 🎉 Text */
 .surprise {
   display: none;
   position: fixed;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
   font-size: clamp(1.8rem, 5vw, 3rem);
   color: #FFD700;
   font-weight: bold;
@@ -105,7 +85,7 @@ body {
   animation: popIn 1s ease forwards;
 }
 
-/* 🎵 Music button */
+/* 🎵 Music */
 .music-controls {
   position: fixed;
   bottom: 20px;
@@ -128,7 +108,40 @@ body {
   animation: musicPulse 1.5s infinite;
 }
 
-/* ✨ Animations */
+/* ✨ Sparkles */
+#sparkles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 150;
+}
+
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkleAnim linear forwards;
+}
+
+@keyframes sparkleAnim {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translateY(-50px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3) translateY(-120px);
+    opacity: 0;
+  }
+}
+
+/* animations */
 @keyframes growCoconut {
   0% { transform: scale(0); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
@@ -143,13 +156,6 @@ body {
   0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
   70% { box-shadow: 0 0 0 20px rgba(59,130,246,0); }
   100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-}
-
-/* 📱 Mobile tweak */
-@media (max-width: 480px) {
-  .coconut-container {
-    width: clamp(120px, 55vw, 180px);
-  }
 }
 </style>
 </head>
@@ -169,6 +175,8 @@ body {
   <button class="fab-music" id="musicBtn">🎵</button>
 </div>
 
+<div id="sparkles"></div>
+
 <audio id="bgMusic">
   <source src="./song.mp3" type="audio/mpeg">
 </audio>
@@ -184,15 +192,13 @@ const gift = document.getElementById('gift');
 const surprise = document.getElementById('surprise');
 const musicBtn = document.getElementById('musicBtn');
 const bgMusic = document.getElementById('bgMusic');
+const sparklesContainer = document.getElementById('sparkles');
 
-/* Step 1: grow → drop */
+/* Coconut animation */
 coconut.addEventListener('animationend', () => {
-  setTimeout(() => {
-    container.style.top = '65vh';
-  }, 500);
+  setTimeout(() => container.style.top = '65vh', 500);
 });
 
-/* Step 2: split */
 container.addEventListener('transitionend', (e) => {
   if (e.propertyName !== 'top') return;
 
@@ -204,7 +210,6 @@ container.addEventListener('transitionend', (e) => {
   piece2.style.opacity = '1';
   piece2.style.transform = 'translate(70%, -30%) rotate(35deg)';
 
-  /* Step 3: gift */
   setTimeout(() => {
     gift.style.opacity = '1';
     gift.style.transform = 'translate(0, -120%) scale(1.2)';
@@ -215,12 +220,16 @@ container.addEventListener('transitionend', (e) => {
 
     setTimeout(() => {
       surprise.style.display = 'block';
+
+      createSparkles(300);   // 💥 BIG BURST
+      startSparkleRain();    // 🌧 CONTINUOUS
+
     }, 4000);
 
   }, 500);
 });
 
-/* Music */
+/* 🎵 Music */
 function startMusic() {
   bgMusic.play().then(() => {
     musicBtn.classList.add('playing');
@@ -230,17 +239,45 @@ function startMusic() {
 window.addEventListener('load', startMusic);
 
 musicBtn.addEventListener('click', () => {
-  if (bgMusic.paused) {
-    startMusic();
-  } else {
+  if (bgMusic.paused) startMusic();
+  else {
     bgMusic.pause();
     musicBtn.classList.remove('playing');
   }
 });
 
-bgMusic.addEventListener('ended', () => {
-  musicBtn.classList.remove('playing');
-});
+/* ✨ Sparkle logic */
+const colors = ['#FFD700','#FFFFFF','#FF69B4','#00FFFF','#FFA500'];
+
+function createSparkles(count) {
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+
+    const size = Math.random() * 6 + 4;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+
+    s.style.background =
+      `radial-gradient(circle, ${colors[Math.floor(Math.random()*colors.length)]}, transparent)`;
+
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+
+    s.style.animationDuration = (Math.random()*1.5+1)+'s';
+
+    sparklesContainer.appendChild(s);
+    setTimeout(() => s.remove(), 2500);
+  }
+}
+
+function startSparkleRain() {
+  const interval = setInterval(() => {
+    createSparkles(80);
+  }, 300);
+
+  setTimeout(() => clearInterval(interval), 6000);
+}
 </script>
 
 </body>
