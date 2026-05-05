@@ -19,10 +19,26 @@ body {
 .tree {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: url('./img/tree.webp') no-repeat left bottom;
   background-size: cover;
+  overflow: hidden;
+
+}
+
+/* actual image control */
+.tree img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  height: 100%;
+  width: auto;
+
+  object-fit: cover;
+  object-position: left bottom; /* 👈 keeps left side visible */
 }
 
 /* 🥥 Main container */
@@ -76,7 +92,7 @@ body {
 .surprise {
   display: none;
   position: fixed;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   
@@ -172,7 +188,7 @@ const bgMusic = document.getElementById('bgMusic');
 /* Step 1: grow → drop */
 coconut.addEventListener('animationend', () => {
   setTimeout(() => {
-    container.style.top = '58vh';
+    container.style.top = '65vh';
   }, 500);
 });
 
