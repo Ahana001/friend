@@ -15,17 +15,17 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Background */
+/* 🌴 Background (left aligned only) */
 .tree {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: url('./img/tree.webp') no-repeat bottom center;
+  background: url('./img/tree.webp') no-repeat left bottom;
   background-size: cover;
 }
 
-/* Container */
+/* 🥥 Main container */
 .coconut-container {
   position: absolute;
   top: 10vh;
@@ -37,7 +37,7 @@ body {
   transition: top 2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* All images stacked */
+/* 🖼 All images stacked */
 .coconut, .half, .gift {
   position: absolute;
   width: 100%;
@@ -47,20 +47,24 @@ body {
   left: 0;
 }
 
-/* Coconut */
+/* Coconut grow */
 .coconut {
   opacity: 0;
   animation: growCoconut 3s forwards;
   animation-delay: 1s;
 }
 
-/* Halves */
+/* 🥥 halves (fixed size + centered base) */
 .half {
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
   opacity: 0;
   transition: transform 1s ease, opacity 1s ease;
 }
 
-/* Gift */
+/* 🎁 gift */
 .gift {
   opacity: 0;
   transform: scale(0.5);
@@ -68,14 +72,15 @@ body {
   transition: all 2s ease;
 }
 
-/* Text */
+/* 🎉 Text centered */
 .surprise {
   display: none;
   position: fixed;
-  top: 5vh;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  transform: translate(-50%, -50%);
+  
+  font-size: clamp(1.8rem, 5vw, 3rem);
   color: #FFD700;
   font-weight: bold;
   text-align: center;
@@ -84,7 +89,7 @@ body {
   animation: popIn 1s ease forwards;
 }
 
-/* Music button */
+/* 🎵 Music button */
 .music-controls {
   position: fixed;
   bottom: 20px;
@@ -107,15 +112,15 @@ body {
   animation: musicPulse 1.5s infinite;
 }
 
-/* Animations */
+/* ✨ Animations */
 @keyframes growCoconut {
   0% { transform: scale(0); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes popIn {
-  0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
-  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
 @keyframes musicPulse {
@@ -124,7 +129,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
 }
 
-/* Mobile tweak */
+/* 📱 Mobile tweak */
 @media (max-width: 480px) {
   .coconut-container {
     width: clamp(120px, 55vw, 180px);
@@ -152,7 +157,7 @@ body {
   <source src="./song.mp3" type="audio/mpeg">
 </audio>
 
-<div class="surprise" id="surprise">🎉 Happy Birthday! 🎉</div>
+<div class="surprise" id="surprise">🎉 Happy Birthday 🎉</div>
 
 <script>
 const container = document.getElementById('container');
@@ -167,7 +172,7 @@ const bgMusic = document.getElementById('bgMusic');
 /* Step 1: grow → drop */
 coconut.addEventListener('animationend', () => {
   setTimeout(() => {
-    container.style.top = '60vh';
+    container.style.top = '58vh';
   }, 500);
 });
 
@@ -178,10 +183,10 @@ container.addEventListener('transitionend', (e) => {
   coconut.style.display = 'none';
 
   piece1.style.opacity = '1';
-  piece1.style.transform = 'translate(-60%, -40%) rotate(-25deg)';
+  piece1.style.transform = 'translate(-70%, -30%) rotate(-35deg)';
 
   piece2.style.opacity = '1';
-  piece2.style.transform = 'translate(60%, -40%) rotate(25deg)';
+  piece2.style.transform = 'translate(70%, -30%) rotate(35deg)';
 
   /* Step 3: gift */
   setTimeout(() => {
@@ -224,4 +229,3 @@ bgMusic.addEventListener('ended', () => {
 
 </body>
 </html>
-
