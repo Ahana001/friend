@@ -1,14 +1,18 @@
 :root {
-  --primary: #ff4d6d;
-  --primary-light: #ff85a1;
-  --primary-dark: #c9184a;
-  --secondary: #ffb3c1;
-  --accent: #fff0f3;
-  --text-main: #2b2d42;
-  --text-light: #595d75;
+  --primary: #3b82f6;
+  --primary-light: #60a5fa;
+  --primary-dark: #1e3a8a;
+  --secondary: #93c5fd;
+  --accent: #eff6ff;
+
+  --text-main: #1e293b;
+  --text-light: #475569;
+
   --glass: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
-  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+  --shadow: 0 8px 32px 0 rgba(30, 58, 138, 0.2);
+
   --font-title: 'Playfair Display', serif;
   --font-body: 'Outfit', sans-serif;
   --font-script: 'Great Vibes', cursive;
@@ -22,7 +26,7 @@
 
 body {
   font-family: var(--font-body);
-  background: #fff5f7;
+  background: #f0f9ff;
   color: var(--text-main);
   overflow-x: hidden;
   min-height: 100vh;
@@ -39,7 +43,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: radial-gradient(circle at 50% 50%, #fff0f3 0%, #ffcad4 100%);
+  background: radial-gradient(circle at 50% 50%, #eff6ff 0%, #bfdbfe 100%);
   overflow: hidden;
 }
 
@@ -47,7 +51,7 @@ body {
   position: absolute;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(255, 77, 109, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
@@ -83,7 +87,7 @@ body {
 .orb-3 {
   width: 300px;
   height: 300px;
-  background: #fbc4ab;
+  background: #38bdf8;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -302,7 +306,6 @@ body {
 }
 
 .main-title .highlight {
-  font-family: var(--font-script);
   font-size: 4rem;
   color: var(--secondary);
   display: block;
@@ -336,18 +339,19 @@ body {
 }
 
 .signed {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 .signed .name {
-  font-family: var(--font-script);
-  font-size: 2.8rem;
+  font-size: 1.5rem;
   color: var(--primary);
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 3px;
+  font-family: var(--font-title);
 }
+
 
 .heart-icon {
   color: var(--primary);
@@ -474,7 +478,7 @@ body {
 }
 
 .mini-surprise-btn {
-  margin-top: 25px;
+  margin-top: 15px;
   background: var(--primary);
   color: white;
   border: none;

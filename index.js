@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const musicBtn = document.getElementById('music-toggle');
   const audio = document.getElementById('bg-music');
   const cursorLight = document.querySelector('.cursor-light');
-  const endingScene = document.getElementById('ending-scene');
-  const replayBtn = document.getElementById('replay-btn');
+  // const endingScene = document.getElementById('ending-scene');
+  // const replayBtn = document.getElementById('replay-btn');
   const heartTrigger = document.getElementById('heart-trigger');
-  const signature = document.getElementById('signature');
+  // const signature = document.getElementById('signature');
   const revealSurpriseBtn = document.getElementById('reveal-surprise-btn');
 
   const cardFront = document.getElementById('card-front');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. 3D INTERACTION
   const handleMove = (x, y) => {
-    if (window.innerWidth < 1024) return; // Only for desktop
+    // if (window.innerWidth < 1024) return; // Only for desktop
     if (!isCardOpen) {
       // Very subtle hover effect when closed
       const rx = (window.innerHeight / 2 - y) / 50;
@@ -95,9 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Typing Animation Configuration
   const typingConfig = {
     lines: [
-      "You've been with me through my best days and my hardest ones — and I can't imagine life without you.",
-      "On your special day, I just want you to feel how deeply loved and appreciated you truly are.",
-      "You deserve all the joy in the world, today and always."
+      "Wishing you good health, a bright future, and all the joy in the world—today and always.",
     ],
     duration: 1.5, // Faster typing for better UX
     pauseBetweenLines: 0.4
@@ -186,35 +184,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. MODAL INTERACTIONS (LoveFunCode)
   const funModal = document.getElementById('fun-modal');
-  const launchBtn = document.getElementById('launch-fun');
-  const closeModalBtn = document.getElementById('close-modal');
+  // const launchBtn = document.getElementById('launch-fun');
+  // const closeModalBtn = document.getElementById('close-modal');
 
-  launchBtn.addEventListener('click', () => {
-    funModal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Disable scroll
-  });
+  // launchBtn.addEventListener('click', () => {
+  //   funModal.classList.add('active');
+  //   document.body.style.overflow = 'hidden'; // Disable scroll
+  // });
 
-  closeModalBtn.addEventListener('click', () => {
-    funModal.classList.remove('active');
-    document.body.style.overflow = ''; // Enable scroll
-    // Force reset iframe to stop music if any
-    const iframe = document.getElementById('fun-iframe');
-    const src = iframe.src;
-    iframe.src = '';
-    iframe.src = src;
-  });
+  // closeModalBtn.addEventListener('click', () => {
+  //   funModal.classList.remove('active');
+  //   document.body.style.overflow = ''; // Enable scroll
+  //   // Force reset iframe to stop music if any
+  //   const iframe = document.getElementById('fun-iframe');
+  //   const src = iframe.src;
+  //   iframe.src = '';
+  //   iframe.src = src;
+  // });
 
   // 5. SCROLL REVEAL FOR SURPRISE SECTION
-  const surpriseSection = document.getElementById('fun-surprise');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        surpriseSection.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
+  // const surpriseSection = document.getElementById('fun-surprise');
+  // const observer = new IntersectionObserver((entries) => {
+  //   entries.forEach(entry => {
+  //     if (entry.isIntersecting) {
+  //       surpriseSection.classList.add('visible');
+  //     }
+  //   });
+  // }, { threshold: 0.2 });
 
-  observer.observe(surpriseSection);
+  // observer.observe(surpriseSection);
 
   // 6. MICRO-INTERACTIONS
   heartTrigger.addEventListener('click', () => {
@@ -240,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. FINAL SCENE TRIGGER
   function showFinalEnding() {
     if (!isCardOpen) return;
-    endingScene.classList.add('active');
+    // endingScene.classList.add('active');
     gsap.from('.ending-content > *', {
       y: 20,
       opacity: 0,
@@ -254,9 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'bbd.html';
   });
 
-  replayBtn.addEventListener('click', () => {
-    endingScene.classList.remove('active');
-  });
+  // replayBtn.addEventListener('click', () => {
+  //   endingScene.classList.remove('active');
+  // });
 
   // 6. DECORATIONS
   function createParticles() {
@@ -305,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
   musicBtn.addEventListener('click', () => {
     const text = musicBtn.querySelector('.music-text');
     if (!isMusicPlaying) {
-      audio.play().catch(() => { });
+      audio.play().catch((error) => {console.log(error) });
       text.textContent = 'Pause Music';
       musicBtn.classList.add('playing');
       isMusicPlaying = true;
