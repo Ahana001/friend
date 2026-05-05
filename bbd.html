@@ -48,9 +48,7 @@ body {
 }
 
 .coconut {
-  opacity: 0;
-  animation: growCoconut 3s forwards;
-  animation-delay: 1s;
+  opacity: 0; /* animation will be triggered via JS */
 }
 
 .half {
@@ -141,7 +139,6 @@ body {
   }
 }
 
-/* animations */
 @keyframes growCoconut {
   0% { transform: scale(0); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
@@ -194,7 +191,22 @@ const musicBtn = document.getElementById('musicBtn');
 const bgMusic = document.getElementById('bgMusic');
 const sparklesContainer = document.getElementById('sparkles');
 
-/* Coconut animation */
+/* 🎬 Controlled Start Sequence */
+window.addEventListener('load', () => {
+
+  // 🎵 Start music after background loads
+  setTimeout(() => {
+    startMusic();
+  }, 1000);
+
+  // 🥥 Start coconut animation after music
+  setTimeout(() => {
+    coconut.style.animation = 'growCoconut 3s forwards';
+  }, 1800);
+
+});
+
+/* Coconut animation flow */
 coconut.addEventListener('animationend', () => {
   setTimeout(() => container.style.top = '65vh', 500);
 });
@@ -220,10 +232,8 @@ container.addEventListener('transitionend', (e) => {
 
     setTimeout(() => {
       surprise.style.display = 'block';
-
-      createSparkles(300);   // 💥 BIG BURST
-      startSparkleRain();    // 🌧 CONTINUOUS
-
+      createSparkles(300);
+      startSparkleRain();
     }, 4000);
 
   }, 500);
@@ -236,8 +246,6 @@ function startMusic() {
   }).catch(() => {});
 }
 
-window.addEventListener('load', startMusic, { once: true });
-
 musicBtn.addEventListener('click', () => {
   if (bgMusic.paused) startMusic();
   else {
@@ -246,7 +254,7 @@ musicBtn.addEventListener('click', () => {
   }
 });
 
-/* ✨ Sparkle logic */
+/* ✨ Sparkles */
 const colors = ['#FFD700','#FFFFFF','#FF69B4','#00FFFF','#FFA500'];
 
 function createSparkles(count) {
